@@ -346,6 +346,30 @@ public interface HapiContext extends Closeable {
      */
     Connection newClient(String host, int port, boolean tls) throws HL7Exception;
 
+
+    /**
+     * Construct a new HL7 Client which will connect to an external TCP server for
+     * the purpose of sending messages (and receiving responses). Unless otherwise
+     * stated, the connection is established by the time this method
+     * returns, or an exception should be thrown if the connection can not be
+     * established. If a connection to this server already exists, it is reused.
+     * <p>
+     * Note that connections are pooled by the HapiContext by default. If multiple
+     * concurrent connections to the same server are required, the easiest way
+     * to accomplish this is currently to create multiple HapiContext instances.
+     * </p>
+     *
+     * @param host The host IP/hostname to connect to
+     * @param port The port to connect to
+     * @param tls  Whether or not to use SSL/TLS
+     * @return Returns a connection which can be used to transmit messages. Note that this method
+     * will attempt to connect to the specified address, and will throw an exception
+     * if it fails to connect.
+     * @throws HL7Exception If the connection can not be initialized for any reason
+     * @see <a href="http://hl7api.sourceforge.net/xref/ca/uhn/hl7v2/examples/SendAndReceiveAMessage.html">here</a> for an example of how to use this method
+     */
+    Connection newClient(String host, int port, boolean tls,int connectTimeout) throws HL7Exception;
+
     /**
      * Construct a new HL7 Client which will connect to an external TCP server for
      * the purpose of sending messages (and receiving responses). The connection
@@ -365,6 +389,25 @@ public interface HapiContext extends Closeable {
      */
     Connection newLazyClient(String host, int port, boolean tls) throws HL7Exception;
 
+
+    /**
+     * Construct a new HL7 Client which will connect to an external TCP server for
+     * the purpose of sending messages (and receiving responses). The connection
+     * should be established by the time the first message is sent.
+     * <p>
+     * Note that connections are pooled by the HapiContext by default. If multiple
+     * concurrent connections to the same server are required, the easiest way
+     * to accomplish this is currently to create multiple HapiContext instances.
+     * </p>
+     *
+     * @param host The host IP/hostname to connect to
+     * @param port The port to connect to
+     * @param tls  Whether or not to use SSL/TLS
+     * @return Returns a connection which can be used to transmit messages.
+     * @throws HL7Exception If the connection can not be initialized for any reason
+     * @see <a href="http://hl7api.sourceforge.net/xref/ca/uhn/hl7v2/examples/SendAndReceiveAMessage.html">here</a> for an example of how to use this method
+     */
+    Connection newLazyClient(String host, int port, boolean tls,int connectTimeout) throws HL7Exception;
     /**
      * Construct a new HL7 two-port client which will connect to an external TCP server for
      * the purpose of sending messages (and receiving responses). Unless otherwise
@@ -388,6 +431,30 @@ public interface HapiContext extends Closeable {
      */
     Connection newClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception;
 
+
+    /**
+     * Construct a new HL7 two-port client which will connect to an external TCP server for
+     * the purpose of sending messages (and receiving responses). Unless otherwise
+     * stated, the connection is established by the time this method
+     * returns, or an exception should be thrown if the connection can not be
+     * established. If a connection to this server already exists, it is reused.
+     * <p>
+     * Note that connections are pooled by the HapiContext by default. If multiple
+     * concurrent connections to the same server are required, the easiest way
+     * to accomplish this is currently to create multiple HapiContext instances.
+     * </p>
+     *
+     * @param host         The host IP/hostname to connect to
+     * @param outboundPort The port to connect to for outgoing messages
+     * @param inboundPort  The port to connect to for inbound (response) messages
+     * @param tls          Whether or not to use SSL/TLS
+     * @return Returns a connection which can be used to transmit messages. Note that this method
+     * will attempt to connect to the specified address, and will throw an exception
+     * if it fails to connect.
+     * @throws HL7Exception If the connection can not be initialized for any reason
+     */
+    Connection newClient(String host, int outboundPort, int inboundPort, boolean tls,int connectTimeout) throws HL7Exception;
+
     /**
      * Construct a new HL7 two-port client which will connect to an external TCP server for
      * the purpose of sending messages (and receiving responses). The connection
@@ -406,6 +473,25 @@ public interface HapiContext extends Closeable {
      * @throws HL7Exception If the connection can not be initialized for any reason
      */
     Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception;
+
+    /**
+     * Construct a new HL7 two-port client which will connect to an external TCP server for
+     * the purpose of sending messages (and receiving responses). The connection
+     * should be established by the time the first message is sent.
+     * <p>
+     * Note that connections are pooled by the HapiContext by default. If multiple
+     * concurrent connections to the same server are required, the easiest way
+     * to accomplish this is currently to create multiple HapiContext instances.
+     * </p>
+     *
+     * @param host         The host IP/hostname to connect to
+     * @param outboundPort The port to connect to for outgoing messages
+     * @param inboundPort  The port to connect to for inbound (response) messages
+     * @param tls          Whether or not to use SSL/TLS
+     * @return Returns a connection which can be used to transmit messages.
+     * @throws HL7Exception If the connection can not be initialized for any reason
+     */
+    Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls ,int connectTimeout) throws HL7Exception;
 
     /**
      * Creates a new message of the given event type, trigger and version, and initializes the message header

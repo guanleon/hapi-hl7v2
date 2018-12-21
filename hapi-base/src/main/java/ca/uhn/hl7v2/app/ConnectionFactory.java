@@ -52,12 +52,12 @@ class ConnectionFactory {
             connection = new ActiveConnection(connectionData.getParser(),
                     connectionData.getProtocol(), createSocket(connectionData.getSocketFactory(),
                     connectionData.getHost(), connectionData.getPort(),
-                    connectionData.isTls()), executorService);
+                    connectionData.isTls(),connectionData.getConnectTimeout()), executorService);
         } else {
             Socket outbound = createSocket(connectionData.getSocketFactory(), connectionData.getHost(),
-                    connectionData.getPort(), connectionData.isTls());
+                    connectionData.getPort(), connectionData.isTls() ,connectionData.getConnectTimeout());
             Socket inbound = createSocket(connectionData.getSocketFactory(), connectionData.getHost(),
-                    connectionData.getPort2(), connectionData.isTls());
+                    connectionData.getPort2(), connectionData.isTls(),connectionData.getConnectTimeout());
             connection = new ActiveConnection(connectionData.getParser(),
                     connectionData.getProtocol(), inbound, outbound,
                     executorService);
@@ -78,6 +78,17 @@ class ConnectionFactory {
 		return socket;
 	}
 
+	//加入超时机制
+    private static Socket createSocket(ca.uhn.hl7v2.util.SocketFactory socketFactory, String host, int port, boolean tls,int connectTimeout) throws IOException {
+        Socket socket;
+        if (tls) {
+            socket = socketFactory.createTlsSocket();
+        } else {
+            socket = socketFactory.createSocket();
+        }
+        socket.connect(new InetSocketAddress(host, port),connectTimeout);
+        return socket;
+    }
 //	private static Socket createSocket(String host, int port, boolean ssl)
 //			throws UnknownHostException, IOException {
 //		SocketFactory sf = ssl ? SSLSocketFactory.getDefault() : SocketFactory

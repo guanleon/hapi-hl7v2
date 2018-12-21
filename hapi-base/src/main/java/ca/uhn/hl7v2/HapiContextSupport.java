@@ -164,19 +164,39 @@ public abstract class HapiContextSupport {
 			return context.newClient(host, port, tls);
 		}
 
-        public Connection newClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
+		@Override
+		public Connection newClient(String host, int port, boolean tls, int connectTimeout) throws HL7Exception {
+			return context.newClient(host, port, tls);
+		}
+
+		public Connection newClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
 			return context.newClient(host, outboundPort, inboundPort, tls);
 		}
 
-        public Connection newLazyClient(String host, int port, boolean tls) throws HL7Exception {
+		@Override
+		public Connection newClient(String host, int outboundPort, int inboundPort, boolean tls, int connectTimeout) throws HL7Exception {
+			return context.newClient(host, outboundPort, inboundPort, tls);
+		}
+
+		public Connection newLazyClient(String host, int port, boolean tls) throws HL7Exception {
             return context.newLazyClient(host, port, tls);
         }
 
-        public Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
+		@Override
+		public Connection newLazyClient(String host, int port, boolean tls, int connectTimeout) throws HL7Exception {
+			return context.newLazyClient(host,port,tls,connectTimeout);
+		}
+
+		public Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
             return context.newLazyClient(host, outboundPort, inboundPort, tls);
         }
 
-        public HL7Service newServer(int port, boolean tls) {
+		@Override
+		public Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls, int connectTimeout) throws HL7Exception {
+			return context.newLazyClient(host, outboundPort, inboundPort, tls);
+		}
+
+		public HL7Service newServer(int port, boolean tls) {
 			return context.newServer(port, tls);
 		}
 

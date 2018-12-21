@@ -256,6 +256,14 @@ public class ConnectionHub extends HapiContextSupport {
                 tls, hapiContext.getSocketFactory(), false));
 	}
 
+
+	/**
+	 * @since 2.1
+	 */
+	public Connection attach(DefaultHapiContext hapiContext, String host, int port, boolean tls,int connectTimeout) throws HL7Exception {
+		return attach(new ConnectionData(host,port,0,tls,hapiContext.getGenericParser(),hapiContext.getLowerLayerProtocol(),
+				hapiContext.getSocketFactory(),false,connectTimeout));
+	}
     /**
      * @since 2.2
      */
@@ -263,6 +271,11 @@ public class ConnectionHub extends HapiContextSupport {
         return attach(new ConnectionData(host, port, 0, hapiContext.getGenericParser(), hapiContext.getLowerLayerProtocol(),
                 tls, hapiContext.getSocketFactory(), true));
     }
+
+	public Connection attachLazily(DefaultHapiContext hapiContext, String host, int port, boolean tls,int connectTimeout) throws HL7Exception {
+		return attach(new ConnectionData(host,port,0,tls,hapiContext.getGenericParser(),hapiContext.getLowerLayerProtocol(),
+				hapiContext.getSocketFactory(),true,connectTimeout));
+	}
 
 	/**
 	 * @since 2.1
@@ -272,6 +285,11 @@ public class ConnectionHub extends HapiContextSupport {
                 hapiContext.getLowerLayerProtocol(), tls, hapiContext.getSocketFactory(), false));
 	}
 
+
+	public Connection attach(DefaultHapiContext hapiContext, String host, int outboundPort, int inboundPort, boolean tls ,int connectTime) throws HL7Exception {
+		return attach(new ConnectionData(host, outboundPort, inboundPort,tls,hapiContext.getGenericParser(),
+				hapiContext.getLowerLayerProtocol(), hapiContext.getSocketFactory(), false,connectTime));
+	}
     /**
      * @since 2.2
      */
@@ -279,6 +297,11 @@ public class ConnectionHub extends HapiContextSupport {
         return attach(new ConnectionData(host, outboundPort, inboundPort, hapiContext.getGenericParser(),
                 hapiContext.getLowerLayerProtocol(), tls, hapiContext.getSocketFactory(), true));
     }
+
+	public Connection attachLazily(DefaultHapiContext hapiContext, String host, int outboundPort, int inboundPort, boolean tls,int connectTime) throws HL7Exception {
+		return attach(new ConnectionData(host, outboundPort, inboundPort,tls,hapiContext.getGenericParser(),
+				hapiContext.getLowerLayerProtocol(), hapiContext.getSocketFactory(), true,connectTime));
+	}
 
 	/**
 	 * @since 1.2

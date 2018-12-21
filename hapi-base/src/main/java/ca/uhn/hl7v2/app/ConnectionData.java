@@ -42,6 +42,16 @@ class ConnectionData {
 	private LowerLayerProtocol protocol;
 	private SocketFactory socketFactory;
     private boolean lazy;
+    //连接超时
+    private int connectTimeout;
+
+	public int getConnectTimeout() {
+		return connectTimeout;
+	}
+
+	public void setConnectTimeout(int connectTimeout) {
+		this.connectTimeout = connectTimeout;
+	}
 
 	public ConnectionData(String host, int port, Parser parser, LowerLayerProtocol protocol) {
 		this(host, port, parser, protocol, false);
@@ -59,17 +69,20 @@ class ConnectionData {
 
 	public ConnectionData(String host, int outboundPort, int inboundPort, Parser parser,
 			LowerLayerProtocol protocol, boolean tls, SocketFactory socketFactory, boolean lazy) {
+		this(host,outboundPort,inboundPort,tls,parser,protocol,socketFactory,lazy,1000);
+	}
+
+	public ConnectionData(String host, int port, int port2, boolean tls, Parser parser,
+						  LowerLayerProtocol protocol, SocketFactory socketFactory, boolean lazy, int connectTimeout) {
 		this.host = host;
-		this.port = outboundPort;
-		this.port2 = inboundPort;
+		this.port = port;
+		this.port2 = port2;
+		this.tls = tls;
 		this.parser = parser;
 		this.protocol = protocol;
-		this.tls = tls;
 		this.socketFactory = socketFactory;
-		if (this.socketFactory == null) {
-			this.socketFactory = new StandardSocketFactory();
-		}
-        this.lazy = lazy;
+		this.lazy = lazy;
+		this.connectTimeout = connectTimeout;
 	}
 
 	public String getHost() {

@@ -342,19 +342,41 @@ public class DefaultHapiContext implements HapiContext {
 		return getConnectionHub().attach(this, host, port, tls);
 	}
 
-	public Connection newClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
+    @Override
+    public Connection newClient(String host, int port, boolean tls, int connectTimeout) throws HL7Exception {
+        return getConnectionHub().attach(this, host, port, tls,connectTimeout);
+    }
+
+    public Connection newClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
 		return getConnectionHub().attach(this, host, outboundPort, inboundPort, tls);
 	}
 
+    @Override
+    public Connection newClient(String host, int outboundPort, int inboundPort, boolean tls, int connectTimeout) throws HL7Exception {
+        return getConnectionHub().attach(this, host,outboundPort,inboundPort,tls,connectTimeout);
+    }
+
+
     public Connection newLazyClient(String host, int port, boolean tls) throws HL7Exception {
         return getConnectionHub().attachLazily(this, host, port, tls);
+    }
+
+    @Override
+    public Connection newLazyClient(String host, int port, boolean tls, int connectTimeout) throws HL7Exception {
+        return getConnectionHub().attachLazily(this, host, port, tls,connectTimeout);
     }
 
     public Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls) throws HL7Exception {
         return getConnectionHub().attachLazily(this, host, outboundPort, inboundPort, tls);
     }
 
-	public ServerConfiguration getServerConfiguration() {
+    @Override
+    public Connection newLazyClient(String host, int outboundPort, int inboundPort, boolean tls, int connectTimeout) throws HL7Exception {
+        return getConnectionHub().attachLazily(this, host, outboundPort, inboundPort, tls,connectTimeout);
+    }
+
+
+    public ServerConfiguration getServerConfiguration() {
 		if (this.serverConfiguration == null) {
 			serverConfiguration = new ServerConfiguration();
 		}
